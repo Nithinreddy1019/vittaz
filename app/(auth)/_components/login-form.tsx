@@ -19,6 +19,9 @@ import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Loader } from "lucide-react";
+import { SigninAction } from "@/actions/signin-action";
+import { toast } from "sonner";
+import { redirect } from "next/navigation";
 
 
 export const LoginForm = () => {
@@ -38,7 +41,16 @@ export const LoginForm = () => {
 
     const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
         startTransition(() => {
-            console.log(values);
+            SigninAction(values)
+                .then((data) => {
+                    if(data?.error) {
+                        toast.error(data.error);
+                        return
+                    }
+                    if(data?.success) {
+                        toast.success(data.success);
+                    }
+                })
         })
     }
 

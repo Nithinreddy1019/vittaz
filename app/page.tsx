@@ -1,9 +1,12 @@
-import Image from "next/image";
 
+
+
+// WIP: do a landing page
 export default function Home() {
   return (
     <div>
       Hello
+
     </div>
   );
 }

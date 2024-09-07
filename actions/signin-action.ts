@@ -7,6 +7,7 @@ import * as z from "zod";
 import * as bcrypt from "bcryptjs";
 import { signIn } from "@/auth";
 import { AuthError } from "next-auth";
+import { DEFAULT_REDIRECT } from "@/routes";
 
 export const SigninAction = async (values: z.infer<typeof LoginSchema>) => {
 
@@ -31,21 +32,23 @@ export const SigninAction = async (values: z.infer<typeof LoginSchema>) => {
     }
 
     try {
-        signIn("credentials" ,{
+        await signIn("credentials" ,{
             email,
             password,
-            redirectTo: "/"
-        })
+            redirectTo: DEFAULT_REDIRECT
+        });
     } catch (error) {
         if(error instanceof AuthError){
             switch (error.type) {
                 case "CredentialsSignin":
                     return { error: "Invalid credentials" }
                 default:
-                    return { error: "Somethign went wrong" }
+                    return { error: "Something went wrong" }
             }
         };
+
+        throw error;
     };
 
-    
+    return { success: "Logged in "}
 }

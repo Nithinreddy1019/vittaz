@@ -19,6 +19,8 @@ import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Loader } from "lucide-react";
+import { SignupAction } from "@/actions/signup-action";
+import { toast } from "sonner";
 
 
 export const RegisterForm = () => {
@@ -38,9 +40,21 @@ export const RegisterForm = () => {
     });
 
     const onSubmit = async (values: z.infer<typeof RegisterSchema>) => {
+
         startTransition(() => {
-            console.log(values);
+            SignupAction(values)
+                .then((data) => {
+                    if(data.error) {
+                        toast.error(data.error)
+                        return
+                    }
+                    if(data.success) {
+                        toast.success(data.success)
+                        return
+                    }
+                });
         })
+
     }
 
     return (

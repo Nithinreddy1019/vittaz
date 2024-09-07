@@ -3,8 +3,8 @@ export const AuthRoutes = [
     "/signup"
 ];
 
-export const publicRoutes = [ "/landing" ];
+export const publicRoutes = [ "/" ];
 
 export const ApiAuthRoute = "/api/auth";
 
-export const DEFAULT_REDIRECT = "/";
+export const DEFAULT_REDIRECT = "/home";
