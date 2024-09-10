@@ -1,5 +1,6 @@
 import { HeaderLogo } from "./header-logo"
 import { Navigation } from "./navigation"
+import { UserButton } from "./user-button"
 import { Welcome } from "./welcome"
 
 
@@ -13,6 +14,7 @@ export const Header = () => {
                         <Navigation />
                     </div>
                     {/* Do a user button - details, thgeme, logout */}
+                    <UserButton />
                 </div>
                 <Welcome />
             </div>
