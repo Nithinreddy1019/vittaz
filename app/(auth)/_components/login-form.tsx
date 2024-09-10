@@ -55,7 +55,7 @@ export const LoginForm = () => {
     }
 
     return (
-        <div className="h-full flex flex-col">
+        <div className="h-full flex flex-col bg-background">
             <Image
                 src={"/vittaz-logo.svg"}
                 alt="logo"
