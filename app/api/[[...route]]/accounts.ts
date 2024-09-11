@@ -15,6 +15,9 @@ const app = new Hono()
         }
 
         const data = await db.accounts.findMany({
+            where: {
+                id: session.user.id
+            },
             select: {
                 id: true,
                 name: true
