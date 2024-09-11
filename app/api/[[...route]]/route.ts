@@ -1,22 +1,18 @@
-import { Hono } from 'hono'
-import { handle } from 'hono/vercel'
+import { Hono } from "hono";
+import { handle } from "hono/vercel";
+import accounts from "./accounts";
 
+import { z } from "zod";
+import { zValidator } from "@hono/zod-validator";
 
-import {z} from "zod";
-import { zValidator } from "@hono/zod-validator"
+export const runtime = "edge";
 
+const app = new Hono().basePath("/api");
 
-export const runtime = 'edge'
+const routes = app
+    .route("/accounts", accounts);
 
-const app = new Hono().basePath('/api')
+export const GET = handle(app);
+export const POST = handle(app);
 
-app.get('/hello', (c) => {
-  return c.json({
-    message: 'Hello Next.js!',
-  })
-})
-
-
-
-export const GET = handle(app)
-export const POST = handle(app)
+export type AppType = typeof routes;

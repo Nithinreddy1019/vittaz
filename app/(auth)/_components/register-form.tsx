@@ -22,7 +22,7 @@ import { Loader } from "lucide-react";
 import { SignupAction } from "@/actions/signup-action";
 import { toast } from "sonner";
 
-
+// WIP: Add OAuth
 export const RegisterForm = () => {
 
     const [error, setError] = useState<string | null>(null);
@@ -74,7 +74,7 @@ export const RegisterForm = () => {
                 showSocials
             >
                 <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                         <div className="space-y-4">
                             <FormField 
                                 control={form.control}
@@ -137,13 +137,6 @@ export const RegisterForm = () => {
                                 )}
                             />
                         </div>
-
-                        <Button
-                            variant={"link"}
-                            className="px-0"                       
-                        >
-                            Forgot password?
-                        </Button>
 
                         <Button 
                             className="w-full font-semibold"
