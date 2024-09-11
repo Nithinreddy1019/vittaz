@@ -11,13 +11,7 @@ import Credentials from "@auth/core/providers/credentials";
 export const runtime = "edge";
 
 const app = new Hono().basePath("/api");
-app.onError((err, c) => {
-    if(err instanceof HTTPException) {
-        return err.getResponse();
-    }
 
-    return c.json({ error: "Internal server error" }, 500)
-});
 
 // Either you can do below or leave as it is - AuthJs middleware will handle it
 app.use("*", initAuthConfig(c=>({
