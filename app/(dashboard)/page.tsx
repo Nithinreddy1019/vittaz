@@ -1,7 +1,18 @@
+"use client"
+
+import { Button } from "@/components/ui/button";
+import { useNewAccount } from "@/features/accounts/hooks/use-new-account";
+
+
 const DashPage = () => {
+    const { isOpen, onClose, onOpen } = useNewAccount();
+
+    
     return (
         <div>
-            ,jygjhg
+            <Button onClick={onOpen}>
+                Open
+            </Button>
         </div>
     );
 }

@@ -5,6 +5,7 @@ import {Toaster} from "sonner"
 import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { QueryProvider } from "@/providers/query-provider";
+import { SheetProvider } from "@/providers/sheet-provider";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -48,6 +49,7 @@ export default function RootLayout({
         >
           <SessionProvider>
             <QueryProvider>
+              <SheetProvider />
               <Toaster />
               {children}
             </QueryProvider>
