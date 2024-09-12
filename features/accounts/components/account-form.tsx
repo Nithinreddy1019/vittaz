@@ -85,7 +85,7 @@ export const AccountForm = ({
                 >
                     {id ? "Save changes" : "Create account"}
                 </Button>
-                {id && <Button
+                {!!id && <Button
                     type="button"
                     className="w-full items-center"
                     disabled={disabled}
