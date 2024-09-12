@@ -8,8 +8,10 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
+import { useDeleteAccount } from "@/features/accounts/api/use-delete-account";
 import { useOpenAccount } from "@/features/accounts/hooks/use-open-account";
-import { EditIcon, MoreHorizontalIcon } from "lucide-react";
+import { useConfirm } from "@/hooks/use-confirm";
+import { EditIcon, MoreHorizontalIcon, Trash2Icon } from "lucide-react";
 
 
 
@@ -21,10 +23,24 @@ export const Actions = ({
     id
 }: Props) => {
 
-    const { onOpen } = useOpenAccount()
+    const [ConfirmationDialog, confirm] = useConfirm(
+        "Are you sure?",
+        "You are about to delete this."
+    )
+
+    const { onOpen } = useOpenAccount();
+    const deleteMutation = useDeleteAccount(id);
+
+    const handleDelete = async () => {
+        const ok = await confirm();
+        if(ok) {
+            deleteMutation.mutate();
+        }
+    }
 
     return (
         <>
+            <ConfirmationDialog />
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button
@@ -36,11 +52,18 @@ export const Actions = ({
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
                     <DropdownMenuItem
-                        disabled={false}
+                        disabled={deleteMutation.isPending}
                         onClick={() => onOpen(id)}
                     >
                         <EditIcon className="size-4 mr-2"/>
                         Edit
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                        disabled={deleteMutation.isPending}
+                        onClick={handleDelete}
+                    >
+                        <Trash2Icon className="size-4 mr-2"/>
+                        Delete
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>

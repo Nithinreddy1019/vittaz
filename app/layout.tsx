@@ -50,7 +50,7 @@ export default function RootLayout({
           <SessionProvider>
             <QueryProvider>
               <SheetProvider />
-              <Toaster />
+              <Toaster richColors/>
               {children}
             </QueryProvider>
           </SessionProvider>
