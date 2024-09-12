@@ -114,6 +114,86 @@ const app = new Hono()
         
         }
     )
+    .patch("/:id",
+        zValidator(
+            "param",
+            z.object({
+                id: z.string().optional()
+            })
+        ),
+        zValidator(
+            "json",
+            AccountsSchema.pick({
+                name: true
+            })
+        ),
+        async (c) => {
+            const session = await auth();
+            const { id } = c.req.valid("param");
+
+            const values = c.req.valid("json");
+
+            if(!id) {
+                return c.json({ error: "Missing Id"}, 400);
+            };
+
+            if(!session?.user?.id) {
+                return c.json({ error: "Unauthorized" }, 401);
+            };
+
+            const data = await db.accounts.update({
+                where: {
+                    userId: session.user.id,
+                    id: id
+                },
+                data: {
+                    name: values.name
+                }
+            });
+
+            if(!data) {
+                return c.json({ error: "Not found" }, 404)
+            };
+
+            return c.json({ data })
+
+        }
+    )
+    .delete("/:id",
+        zValidator(
+            "param",
+            z.object({
+                id: z.string().optional()
+            })
+        ),
+        async (c) => {
+            const session = await auth();
+            const { id } = c.req.valid("param");
+
+            if(!id) {
+                return c.json({ error: "Missing Id"}, 400);
+            };
+
+            if(!session?.user?.id) {
+                return c.json({ error: "Unauthorized" }, 401);
+            };
+
+            const data = await db.accounts.delete({
+                where: {
+                    id: id
+                }
+            });
+
+            if(!data) {
+                return c.json({ error: "Not found" }, 404)
+            };
+
+            return c.json({ 
+                id: data.id
+            })
+
+        }
+    )
 
 
 export default app;
