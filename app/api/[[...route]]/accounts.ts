@@ -26,6 +26,41 @@ const app = new Hono()
 
         return c.json({ data })
     })
+    .get("/:id",
+        zValidator("param", z.object({
+            id: z.string().optional()
+        })),
+        async (c) => {
+            const session = await auth();
+            const { id } = c.req.valid("param");
+            
+            if(!session?.user?.id) {
+                return c.json({ error: "Unauthorized"}, 401)
+            };
+
+            if(!id) {
+                return c.json({ error: "Bad request, missing Id" }, 400)
+            };
+
+            const data = await db.accounts.findUnique({
+                where: {
+                    userId: session.user.id,
+                    id: id
+                },
+                select: {
+                    id: true,
+                    name: true
+                }
+            });
+
+            if(!data) {
+                return c.json({ error: "Not found" }, 404)
+            };
+
+            return c.json({ data })
+
+        }
+    )
     .post("/",
         zValidator("json", AccountsSchema.pick({
             name: true
