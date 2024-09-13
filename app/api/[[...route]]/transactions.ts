@@ -135,6 +135,38 @@ const app = new Hono()
             
             return c.json({ data })
     })
+    .post("/bulk-create",
+        zValidator(
+            "json",
+            z.array(
+                TransactionsSchema.omit({
+                    id: true
+                })
+            )
+        ),
+        async (c) => {
+            const session = await auth();
+            const values = c.req.valid("json");
+
+            if(!session?.user?.id) {
+                return c.json({ error: " Unauthoprized"}, 401)
+            };
+
+            // const data = await db.transactions.createMany({
+            //     data: values
+            // });
+
+            const createPromises = values.map((value) => (
+                db.transactions.create({
+                    data: value
+                })
+            ));
+
+            const data = await Promise.all(createPromises);
+
+            return c.json({ data })
+        }
+    )
     .post("/bulk-delete",
         zValidator(
             "json",
