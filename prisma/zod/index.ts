@@ -18,6 +18,8 @@ export const AccountScalarFieldEnumSchema = z.enum(['userId','type','provider','
 
 export const AccountsScalarFieldEnumSchema = z.enum(['id','name','userId','bankId']);
 
+export const CategoriesScalarFieldEnumSchema = z.enum(['id','name','userId','bankId']);
+
 export const SortOrderSchema = z.enum(['asc','desc']);
 
 export const QueryModeSchema = z.enum(['default','insensitive']);
@@ -78,6 +80,19 @@ export const AccountsSchema = z.object({
 })
 
 export type Accounts = z.infer<typeof AccountsSchema>
+
+/////////////////////////////////////////
+// CATEGORIES SCHEMA
+/////////////////////////////////////////
+
+export const CategoriesSchema = z.object({
+  id: z.string().cuid(),
+  name: z.string(),
+  userId: z.string(),
+  bankId: z.string().nullable(),
+})
+
+export type Categories = z.infer<typeof CategoriesSchema>
 
 /////////////////////////////////////////
 // SELECT & INCLUDE
@@ -150,6 +165,16 @@ export const AccountSelectSchema: z.ZodType<Prisma.AccountSelect> = z.object({
 //------------------------------------------------------
 
 export const AccountsSelectSchema: z.ZodType<Prisma.AccountsSelect> = z.object({
+  id: z.boolean().optional(),
+  name: z.boolean().optional(),
+  userId: z.boolean().optional(),
+  bankId: z.boolean().optional(),
+}).strict()
+
+// CATEGORIES
+//------------------------------------------------------
+
+export const CategoriesSelectSchema: z.ZodType<Prisma.CategoriesSelect> = z.object({
   id: z.boolean().optional(),
   name: z.boolean().optional(),
   userId: z.boolean().optional(),
@@ -394,6 +419,56 @@ export const AccountsScalarWhereWithAggregatesInputSchema: z.ZodType<Prisma.Acco
   bankId: z.union([ z.lazy(() => StringNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
 }).strict();
 
+export const CategoriesWhereInputSchema: z.ZodType<Prisma.CategoriesWhereInput> = z.object({
+  AND: z.union([ z.lazy(() => CategoriesWhereInputSchema),z.lazy(() => CategoriesWhereInputSchema).array() ]).optional(),
+  OR: z.lazy(() => CategoriesWhereInputSchema).array().optional(),
+  NOT: z.union([ z.lazy(() => CategoriesWhereInputSchema),z.lazy(() => CategoriesWhereInputSchema).array() ]).optional(),
+  id: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
+  name: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
+  userId: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
+  bankId: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+}).strict();
+
+export const CategoriesOrderByWithRelationInputSchema: z.ZodType<Prisma.CategoriesOrderByWithRelationInput> = z.object({
+  id: z.lazy(() => SortOrderSchema).optional(),
+  name: z.lazy(() => SortOrderSchema).optional(),
+  userId: z.lazy(() => SortOrderSchema).optional(),
+  bankId: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
+}).strict();
+
+export const CategoriesWhereUniqueInputSchema: z.ZodType<Prisma.CategoriesWhereUniqueInput> = z.object({
+  id: z.string().cuid()
+})
+.and(z.object({
+  id: z.string().cuid().optional(),
+  AND: z.union([ z.lazy(() => CategoriesWhereInputSchema),z.lazy(() => CategoriesWhereInputSchema).array() ]).optional(),
+  OR: z.lazy(() => CategoriesWhereInputSchema).array().optional(),
+  NOT: z.union([ z.lazy(() => CategoriesWhereInputSchema),z.lazy(() => CategoriesWhereInputSchema).array() ]).optional(),
+  name: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
+  userId: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
+  bankId: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+}).strict());
+
+export const CategoriesOrderByWithAggregationInputSchema: z.ZodType<Prisma.CategoriesOrderByWithAggregationInput> = z.object({
+  id: z.lazy(() => SortOrderSchema).optional(),
+  name: z.lazy(() => SortOrderSchema).optional(),
+  userId: z.lazy(() => SortOrderSchema).optional(),
+  bankId: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
+  _count: z.lazy(() => CategoriesCountOrderByAggregateInputSchema).optional(),
+  _max: z.lazy(() => CategoriesMaxOrderByAggregateInputSchema).optional(),
+  _min: z.lazy(() => CategoriesMinOrderByAggregateInputSchema).optional()
+}).strict();
+
+export const CategoriesScalarWhereWithAggregatesInputSchema: z.ZodType<Prisma.CategoriesScalarWhereWithAggregatesInput> = z.object({
+  AND: z.union([ z.lazy(() => CategoriesScalarWhereWithAggregatesInputSchema),z.lazy(() => CategoriesScalarWhereWithAggregatesInputSchema).array() ]).optional(),
+  OR: z.lazy(() => CategoriesScalarWhereWithAggregatesInputSchema).array().optional(),
+  NOT: z.union([ z.lazy(() => CategoriesScalarWhereWithAggregatesInputSchema),z.lazy(() => CategoriesScalarWhereWithAggregatesInputSchema).array() ]).optional(),
+  id: z.union([ z.lazy(() => StringWithAggregatesFilterSchema),z.string() ]).optional(),
+  name: z.union([ z.lazy(() => StringWithAggregatesFilterSchema),z.string() ]).optional(),
+  userId: z.union([ z.lazy(() => StringWithAggregatesFilterSchema),z.string() ]).optional(),
+  bankId: z.union([ z.lazy(() => StringNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
+}).strict();
+
 export const UserCreateInputSchema: z.ZodType<Prisma.UserCreateInput> = z.object({
   id: z.string().cuid().optional(),
   name: z.string().optional().nullable(),
@@ -629,6 +704,55 @@ export const AccountsUpdateManyMutationInputSchema: z.ZodType<Prisma.AccountsUpd
 }).strict();
 
 export const AccountsUncheckedUpdateManyInputSchema: z.ZodType<Prisma.AccountsUncheckedUpdateManyInput> = z.object({
+  id: z.union([ z.string().cuid(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  userId: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  bankId: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+}).strict();
+
+export const CategoriesCreateInputSchema: z.ZodType<Prisma.CategoriesCreateInput> = z.object({
+  id: z.string().cuid().optional(),
+  name: z.string(),
+  userId: z.string(),
+  bankId: z.string().optional().nullable()
+}).strict();
+
+export const CategoriesUncheckedCreateInputSchema: z.ZodType<Prisma.CategoriesUncheckedCreateInput> = z.object({
+  id: z.string().cuid().optional(),
+  name: z.string(),
+  userId: z.string(),
+  bankId: z.string().optional().nullable()
+}).strict();
+
+export const CategoriesUpdateInputSchema: z.ZodType<Prisma.CategoriesUpdateInput> = z.object({
+  id: z.union([ z.string().cuid(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  userId: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  bankId: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+}).strict();
+
+export const CategoriesUncheckedUpdateInputSchema: z.ZodType<Prisma.CategoriesUncheckedUpdateInput> = z.object({
+  id: z.union([ z.string().cuid(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  userId: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  bankId: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+}).strict();
+
+export const CategoriesCreateManyInputSchema: z.ZodType<Prisma.CategoriesCreateManyInput> = z.object({
+  id: z.string().cuid().optional(),
+  name: z.string(),
+  userId: z.string(),
+  bankId: z.string().optional().nullable()
+}).strict();
+
+export const CategoriesUpdateManyMutationInputSchema: z.ZodType<Prisma.CategoriesUpdateManyMutationInput> = z.object({
+  id: z.union([ z.string().cuid(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  userId: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  bankId: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+}).strict();
+
+export const CategoriesUncheckedUpdateManyInputSchema: z.ZodType<Prisma.CategoriesUncheckedUpdateManyInput> = z.object({
   id: z.union([ z.string().cuid(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   userId: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
@@ -907,6 +1031,27 @@ export const AccountsMaxOrderByAggregateInputSchema: z.ZodType<Prisma.AccountsMa
 }).strict();
 
 export const AccountsMinOrderByAggregateInputSchema: z.ZodType<Prisma.AccountsMinOrderByAggregateInput> = z.object({
+  id: z.lazy(() => SortOrderSchema).optional(),
+  name: z.lazy(() => SortOrderSchema).optional(),
+  userId: z.lazy(() => SortOrderSchema).optional(),
+  bankId: z.lazy(() => SortOrderSchema).optional()
+}).strict();
+
+export const CategoriesCountOrderByAggregateInputSchema: z.ZodType<Prisma.CategoriesCountOrderByAggregateInput> = z.object({
+  id: z.lazy(() => SortOrderSchema).optional(),
+  name: z.lazy(() => SortOrderSchema).optional(),
+  userId: z.lazy(() => SortOrderSchema).optional(),
+  bankId: z.lazy(() => SortOrderSchema).optional()
+}).strict();
+
+export const CategoriesMaxOrderByAggregateInputSchema: z.ZodType<Prisma.CategoriesMaxOrderByAggregateInput> = z.object({
+  id: z.lazy(() => SortOrderSchema).optional(),
+  name: z.lazy(() => SortOrderSchema).optional(),
+  userId: z.lazy(() => SortOrderSchema).optional(),
+  bankId: z.lazy(() => SortOrderSchema).optional()
+}).strict();
+
+export const CategoriesMinOrderByAggregateInputSchema: z.ZodType<Prisma.CategoriesMinOrderByAggregateInput> = z.object({
   id: z.lazy(() => SortOrderSchema).optional(),
   name: z.lazy(() => SortOrderSchema).optional(),
   userId: z.lazy(() => SortOrderSchema).optional(),
@@ -1534,6 +1679,63 @@ export const AccountsFindUniqueOrThrowArgsSchema: z.ZodType<Prisma.AccountsFindU
   where: AccountsWhereUniqueInputSchema,
 }).strict() ;
 
+export const CategoriesFindFirstArgsSchema: z.ZodType<Prisma.CategoriesFindFirstArgs> = z.object({
+  select: CategoriesSelectSchema.optional(),
+  where: CategoriesWhereInputSchema.optional(),
+  orderBy: z.union([ CategoriesOrderByWithRelationInputSchema.array(),CategoriesOrderByWithRelationInputSchema ]).optional(),
+  cursor: CategoriesWhereUniqueInputSchema.optional(),
+  take: z.number().optional(),
+  skip: z.number().optional(),
+  distinct: z.union([ CategoriesScalarFieldEnumSchema,CategoriesScalarFieldEnumSchema.array() ]).optional(),
+}).strict() ;
+
+export const CategoriesFindFirstOrThrowArgsSchema: z.ZodType<Prisma.CategoriesFindFirstOrThrowArgs> = z.object({
+  select: CategoriesSelectSchema.optional(),
+  where: CategoriesWhereInputSchema.optional(),
+  orderBy: z.union([ CategoriesOrderByWithRelationInputSchema.array(),CategoriesOrderByWithRelationInputSchema ]).optional(),
+  cursor: CategoriesWhereUniqueInputSchema.optional(),
+  take: z.number().optional(),
+  skip: z.number().optional(),
+  distinct: z.union([ CategoriesScalarFieldEnumSchema,CategoriesScalarFieldEnumSchema.array() ]).optional(),
+}).strict() ;
+
+export const CategoriesFindManyArgsSchema: z.ZodType<Prisma.CategoriesFindManyArgs> = z.object({
+  select: CategoriesSelectSchema.optional(),
+  where: CategoriesWhereInputSchema.optional(),
+  orderBy: z.union([ CategoriesOrderByWithRelationInputSchema.array(),CategoriesOrderByWithRelationInputSchema ]).optional(),
+  cursor: CategoriesWhereUniqueInputSchema.optional(),
+  take: z.number().optional(),
+  skip: z.number().optional(),
+  distinct: z.union([ CategoriesScalarFieldEnumSchema,CategoriesScalarFieldEnumSchema.array() ]).optional(),
+}).strict() ;
+
+export const CategoriesAggregateArgsSchema: z.ZodType<Prisma.CategoriesAggregateArgs> = z.object({
+  where: CategoriesWhereInputSchema.optional(),
+  orderBy: z.union([ CategoriesOrderByWithRelationInputSchema.array(),CategoriesOrderByWithRelationInputSchema ]).optional(),
+  cursor: CategoriesWhereUniqueInputSchema.optional(),
+  take: z.number().optional(),
+  skip: z.number().optional(),
+}).strict() ;
+
+export const CategoriesGroupByArgsSchema: z.ZodType<Prisma.CategoriesGroupByArgs> = z.object({
+  where: CategoriesWhereInputSchema.optional(),
+  orderBy: z.union([ CategoriesOrderByWithAggregationInputSchema.array(),CategoriesOrderByWithAggregationInputSchema ]).optional(),
+  by: CategoriesScalarFieldEnumSchema.array(),
+  having: CategoriesScalarWhereWithAggregatesInputSchema.optional(),
+  take: z.number().optional(),
+  skip: z.number().optional(),
+}).strict() ;
+
+export const CategoriesFindUniqueArgsSchema: z.ZodType<Prisma.CategoriesFindUniqueArgs> = z.object({
+  select: CategoriesSelectSchema.optional(),
+  where: CategoriesWhereUniqueInputSchema,
+}).strict() ;
+
+export const CategoriesFindUniqueOrThrowArgsSchema: z.ZodType<Prisma.CategoriesFindUniqueOrThrowArgs> = z.object({
+  select: CategoriesSelectSchema.optional(),
+  where: CategoriesWhereUniqueInputSchema,
+}).strict() ;
+
 export const UserCreateArgsSchema: z.ZodType<Prisma.UserCreateArgs> = z.object({
   select: UserSelectSchema.optional(),
   include: UserIncludeSchema.optional(),
@@ -1666,4 +1868,46 @@ export const AccountsUpdateManyArgsSchema: z.ZodType<Prisma.AccountsUpdateManyAr
 
 export const AccountsDeleteManyArgsSchema: z.ZodType<Prisma.AccountsDeleteManyArgs> = z.object({
   where: AccountsWhereInputSchema.optional(),
+}).strict() ;
+
+export const CategoriesCreateArgsSchema: z.ZodType<Prisma.CategoriesCreateArgs> = z.object({
+  select: CategoriesSelectSchema.optional(),
+  data: z.union([ CategoriesCreateInputSchema,CategoriesUncheckedCreateInputSchema ]),
+}).strict() ;
+
+export const CategoriesUpsertArgsSchema: z.ZodType<Prisma.CategoriesUpsertArgs> = z.object({
+  select: CategoriesSelectSchema.optional(),
+  where: CategoriesWhereUniqueInputSchema,
+  create: z.union([ CategoriesCreateInputSchema,CategoriesUncheckedCreateInputSchema ]),
+  update: z.union([ CategoriesUpdateInputSchema,CategoriesUncheckedUpdateInputSchema ]),
+}).strict() ;
+
+export const CategoriesCreateManyArgsSchema: z.ZodType<Prisma.CategoriesCreateManyArgs> = z.object({
+  data: z.union([ CategoriesCreateManyInputSchema,CategoriesCreateManyInputSchema.array() ]),
+  skipDuplicates: z.boolean().optional(),
+}).strict() ;
+
+export const CategoriesCreateManyAndReturnArgsSchema: z.ZodType<Prisma.CategoriesCreateManyAndReturnArgs> = z.object({
+  data: z.union([ CategoriesCreateManyInputSchema,CategoriesCreateManyInputSchema.array() ]),
+  skipDuplicates: z.boolean().optional(),
+}).strict() ;
+
+export const CategoriesDeleteArgsSchema: z.ZodType<Prisma.CategoriesDeleteArgs> = z.object({
+  select: CategoriesSelectSchema.optional(),
+  where: CategoriesWhereUniqueInputSchema,
+}).strict() ;
+
+export const CategoriesUpdateArgsSchema: z.ZodType<Prisma.CategoriesUpdateArgs> = z.object({
+  select: CategoriesSelectSchema.optional(),
+  data: z.union([ CategoriesUpdateInputSchema,CategoriesUncheckedUpdateInputSchema ]),
+  where: CategoriesWhereUniqueInputSchema,
+}).strict() ;
+
+export const CategoriesUpdateManyArgsSchema: z.ZodType<Prisma.CategoriesUpdateManyArgs> = z.object({
+  data: z.union([ CategoriesUpdateManyMutationInputSchema,CategoriesUncheckedUpdateManyInputSchema ]),
+  where: CategoriesWhereInputSchema.optional(),
+}).strict() ;
+
+export const CategoriesDeleteManyArgsSchema: z.ZodType<Prisma.CategoriesDeleteManyArgs> = z.object({
+  where: CategoriesWhereInputSchema.optional(),
 }).strict() ;

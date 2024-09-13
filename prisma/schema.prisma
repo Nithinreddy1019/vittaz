@@ -64,4 +64,11 @@ model Accounts {
   bankId String?
 }
 
+model Categories {
+  id String @id @default(cuid())
+  name String 
+  userId String
+  bankId String?
+}
+
 
