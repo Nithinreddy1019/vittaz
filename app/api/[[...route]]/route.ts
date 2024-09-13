@@ -1,11 +1,9 @@
 import { Hono } from "hono";
 import { handle } from "hono/vercel";
 import accounts from "./accounts";
+import categories from "./categories";
 import { authHandler,initAuthConfig,verifyAuth} from "@hono/auth-js"
 
-import { z } from "zod";
-import { zValidator } from "@hono/zod-validator";
-import { HTTPException } from "hono/http-exception";
 import Credentials from "@auth/core/providers/credentials";
 
 export const runtime = "edge";
@@ -26,7 +24,8 @@ app.use("/api/*", verifyAuth())
 
 // Routing
 const routes = app
-    .route("/accounts", accounts);
+    .route("/accounts", accounts)
+    .route("/categories", categories)
 
     
 export const GET = handle(app);
