@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/card";
 import { useNewAccount } from "@/features/accounts/hooks/use-new-account";
 import { LoaderIcon, PlusIcon } from "lucide-react";
-import { DataTable } from "@/components/data.table";
+import { DataTable } from "@/components/data-table";
 import { columns } from "./columns";
 import { useGetAccounts } from "@/features/accounts/api/use-get-accounts";
 import { Skeleton } from "@/components/ui/skeleton";
