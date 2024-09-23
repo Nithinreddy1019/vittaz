@@ -20,6 +20,8 @@ import { Trash2Icon } from "lucide-react";
 import { Select } from "@/components/select";
 import { DatePicker } from "@/components/date-picker";
 import { Textarea } from "@/components/ui/textarea";
+import { AmoutInput } from "@/components/amount-input";
+import { convertAmountToMillUnits } from "@/lib/utils";
 
 
 
@@ -71,8 +73,17 @@ export const TransactionForm = ({
     });
 
     const handleSubmit = (values: FormValues) => {
-        console.log(values)
-        // onSubmit(values)
+        const amount = parseFloat(values.amount)
+        const amountInMillUnits = convertAmountToMillUnits(amount);
+
+        onSubmit({
+            date: values.date,
+            accountId: values.accountId,
+            categoryId: values.categoryId || null,
+            payee: values.payee,
+            amount: amountInMillUnits,
+            notes: values.notes || null,
+        });
     }
 
     const handleDelete = () => {
@@ -119,7 +130,7 @@ export const TransactionForm = ({
                     )}
                 />
                 <FormField 
-                    name="accountId"
+                    name="categoryId"
                     control={form.control}
                     render={({field}) => (
                         <FormItem>
@@ -158,18 +169,36 @@ export const TransactionForm = ({
                     )}
                 />
                 <FormField 
+                    name="amount"
+                    control={form.control}
+                    render={({field}) => (
+                        <FormItem>
+                            <FormLabel>
+                                Amount
+                            </FormLabel>
+                            <FormControl>
+                                <AmoutInput 
+                                    {...field}
+                                    disabled={disabled}
+                                    placeholder="0.00"
+                                />
+                            </FormControl>
+                        </FormItem>
+                    )}
+                />
+                <FormField 
                     name="notes"
                     control={form.control}
                     render={({field}) => (
                         <FormItem>
                             <FormLabel>
-                                Payee
+                                Notes
                             </FormLabel>
                             <FormControl>
                                 <Textarea
                                     {...field}
                                     value={field.value ?? ""}
-                                    placeholder="Optionsl notes"
+                                    placeholder="Optional notes"
                                     disabled={disabled}
                                 />                                
                             </FormControl>
@@ -181,7 +210,7 @@ export const TransactionForm = ({
                     className="w-full"
                     disabled={disabled}
                 >
-                    {id ? "Save changes" : "Create account"}
+                    {id ? "Save changes" : "Create transaction"}
                 </Button>
                 {!!id && <Button
                     type="button"
@@ -191,7 +220,7 @@ export const TransactionForm = ({
                     onClick={handleDelete}
                 >
                     <Trash2Icon className="size-4 mr-2"/>
-                    Delete account
+                    Delete transaction
                 </Button>}
             </form>
         </Form>
