@@ -14,3 +14,12 @@ export function convertAmountToMillUnits(amount: number) {
 export function converAmountFromMillUnits(amount: number) {
   return Math.round(amount / 1000);
 }
+
+// WIP: Do this for Indian currency
+export function formatCurrency(value: number) {
+  return Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    minimumFractionDigits: 2,
+  }).format(value);
+}

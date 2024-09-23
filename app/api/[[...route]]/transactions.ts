@@ -32,6 +32,24 @@ const app = new Hono()
         const endDate = to
             ? parse(to, "yyyy-MM-dd", new Date())
             : defaultTo;
+
+        const whereClause = {
+            account: {
+                userId: session.user.id
+            },
+            date: {
+                gte: startDate,
+                lte: endDate
+            }
+        } as {
+            account: { userId: string },
+            date: { gte: Date, lte: Date },
+            accountId?: string
+        };
+
+        if(accountId) {
+            whereClause.accountId = accountId
+        }
         
         const data = await db.transactions.findMany({
             select: {
@@ -53,16 +71,7 @@ const app = new Hono()
                 },
                 date: true
             },
-            where: {
-                account: {
-                    userId: session.user.id
-                },
-                accountId: accountId,
-                date: {
-                    gte: startDate,
-                    lte: endDate
-                }
-            },
+            where: whereClause,
             orderBy: {
                 date: "desc"
             }
