@@ -8,8 +8,8 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import { useDeleteAccount } from "@/features/accounts/api/use-delete-account";
-import { useOpenAccount } from "@/features/accounts/hooks/use-open-account";
+import { useDeleteTransaction } from "@/features/transactions/api/use-delete-transaction";
+import { useOpenTransaction } from "@/features/transactions/hooks/use-open-transaction";
 import { useConfirm } from "@/hooks/use-confirm";
 import { EditIcon, MoreHorizontalIcon, Trash2Icon } from "lucide-react";
 
@@ -28,8 +28,8 @@ export const Actions = ({
         "You are about to delete this."
     )
 
-    const { onOpen } = useOpenAccount();
-    const deleteMutation = useDeleteAccount(id);
+    const { onOpen } = useOpenTransaction();
+    const deleteMutation = useDeleteTransaction(id);
 
     const handleDelete = async () => {
         const ok = await confirm();
