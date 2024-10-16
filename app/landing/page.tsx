@@ -1,10 +1,12 @@
 "use client"
 
+import { Navigation } from "./_components/navigation";
+
 const HomePage = () => {
     return (
-        <div>
-            Hoe
-        </div>
+        <>
+            <Navigation />
+        </>
     );
 }
  

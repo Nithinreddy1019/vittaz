@@ -12,7 +12,7 @@ export const runtime = "edge";
 const app = new Hono().basePath("/api");
 
 
-// Either you can do below or leave as it is - AuthJs middleware will handle it
+// Either you can do below or leave as it is - AuthJs middleware will handle it - removw these when deploying 
 app.use("*", initAuthConfig(c=>({
     secret: c.env.AUTH_SECRET,
     providers: [

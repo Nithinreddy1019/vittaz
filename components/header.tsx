@@ -13,7 +13,7 @@ export const Header = () => {
                         <HeaderLogo />
                         <Navigation />
                     </div>
-                    {/* Do a user button - details, thgeme, logout */}
+                    {/* WIP:// Do a profile page */}
                     <UserButton />
                 </div>
                 <Welcome />

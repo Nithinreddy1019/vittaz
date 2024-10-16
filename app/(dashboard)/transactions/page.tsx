@@ -19,7 +19,6 @@ import { UploadButton } from "./upload-button";
 import { ImportCard } from "./import-card";
 
 
-
 enum VARIANTS {
     LIST = "LIST",
     IMPORT = "IMPORT"

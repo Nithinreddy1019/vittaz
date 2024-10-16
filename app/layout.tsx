@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { Poppins } from "next/font/google";
+
 import "./globals.css";
 import {Toaster} from "sonner"
 import { SessionProvider } from "next-auth/react";
@@ -17,6 +19,8 @@ const geistMono = localFont({
   variable: "--font-geist-mono",
   weight: "100 400",
 });
+const poppipns = Poppins({subsets:["latin"], weight: ["500"]})
+
 
 export const metadata: Metadata = {
   title: "Vittaz",
@@ -39,7 +43,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased ${poppipns.className}`}
       >
         <ThemeProvider
           attribute="class"
